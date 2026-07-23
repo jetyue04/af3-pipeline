@@ -1,0 +1,15 @@
+{
+  "name": "RAB5A_full_monomer",
+  "modelSeeds": [1],
+  "sequences": [
+    {
+      "protein": {
+        "id": "A",
+        "sequence": "MASRGATRPNGPNTGNKICQFKLVLLGESAVGKSSLVLRFVKGQFHEFQESTIGAAFLTQTVCLDDTTVKFEIWDTAGQERYHSLAPMYYRGAQAAIVVYDITNEESFARAKNWVKELQRQASPNIVIALSGNKADLANKRAVDFQEAQSYADDNSLLFMETSAKTSMNVNEIFMAIAKKLPKNEPQNPGANSARGRGVDLTEPTQPTRNQCCSN",
+        "description": "Chain A: RAB5A, full-length (UniProt P20339)"
+      }
+    }
+  ],
+  "dialect": "alphafold3",
+  "version": 4
+}

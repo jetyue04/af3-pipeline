@@ -1,0 +1,29 @@
+{
+  "name": "RAB5A_full_GDP_Mg",
+  "modelSeeds": [1],
+  "sequences": [
+    {
+      "protein": {
+        "id": "A",
+        "sequence": "MASRGATRPNGPNTGNKICQFKLVLLGESAVGKSSLVLRFVKGQFHEFQESTIGAAFLTQTVCLDDTTVKFEIWDTAGQERYHSLAPMYYRGAQAAIVVYDITNEESFARAKNWVKELQRQASPNIVIALSGNKADLANKRAVDFQEAQSYADDNSLLFMETSAKTSMNVNEIFMAIAKKLPKNEPQNPGANSARGRGVDLTEPTQPTRNQCCSN",
+        "description": "Chain A: RAB5A, full-length (UniProt P20339)"
+      }
+    },
+    {
+      "ligand": {
+        "id": "B",
+        "ccdCodes": ["GDP"],
+        "description": "Chain B: GDP nucleotide (inactive/\"off\" state)"
+      }
+    },
+    {
+      "ligand": {
+        "id": "C",
+        "ccdCodes": ["MG"],
+        "description": "Chain C: Mg2+ cofactor"
+      }
+    }
+  ],
+  "dialect": "alphafold3",
+  "version": 4
+}

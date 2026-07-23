@@ -1,7 +1,29 @@
 #!/bin/bash
-#SBATCH --job-name=AF3_test
-#SBATCH --output=slurm-AF3_test_%j.out
-#SBATCH --error=slurm-AF3_test_%j.err
+# ==========================================================================
+# AF3 SLURM job TEMPLATE — copy this file per job, don't edit it in place.
+# Fill in the two REPLACE_WITH_* spots below (job name + input JSON), then
+# sbatch it. See jobs/README.md for the already-filled-in per-protein jobs.
+# ==========================================================================
+
+#SBATCH --job-name=AF3_REPLACE_WITH_JOB_NAME
+#SBATCH --output=slurm-AF3_REPLACE_WITH_JOB_NAME_%j.out
+#SBATCH --error=slurm-AF3_REPLACE_WITH_JOB_NAME_%j.err
+
+# GPU partition — this cluster has NVIDIA L20 (l20-gpu) and H20 (h20-gpu)
+# nodes. Confirm exact partition names/current load with `sinfo` before
+# submitting. Public specs (not this cluster's exact node counts/queues):
+#   L20: 48GB GDDR6, ~864 GB/s memory bandwidth, Ada Lovelace, lower power.
+#   H20: 96GB HBM3, ~4 TB/s memory bandwidth, Hopper, NVLink.
+# AF3's Evoformer/Pairformer attention is memory-bandwidth-bound and scales
+# with sequence length, so H20 is the better GPU overall — default to
+# h20-gpu when it's not queued/contended, especially for anything with a
+# long combined sequence length, multi-chain complexes (ternary/quaternary,
+# step 10), or deep MSA/templates, where the 2x VRAM and ~4-5x bandwidth
+# over L20 matter most. Fall back to l20-gpu when H20 nodes are busy, or
+# for single monomers/quick sanity-check runs (e.g. the monomer QC pass,
+# step 3) where the weaker GPU is still plenty.
+# Rather than edit this line, you can also override at submit time:
+#   sbatch -p h20-gpu jobs/your_job.job
 #SBATCH -p l20-gpu
 #SBATCH --account=faculty
 #SBATCH --gres=gpu:1
@@ -14,33 +36,44 @@ mkdir -p /work/$USER/cache
 export APPTAINER_TMPDIR=/work/$USER/tmp
 export APPTAINER_CACHEDIR=/work/$USER/cache
 
+# Fixed install locations for the shared AF3 build on this cluster — same
+# for every job, shouldn't need to change.
 AF3_HOME=/opt/apps/community/alphafold3
 DATABASES_DIR=/opt/apps/community/alphafold3/AF3_databases
 MODEL_PARAMETERS_DIR=$AF3_HOME/AF3_models
 
+# Where this repo is cloned on the cluster (the SLURM work directory).
+# Override at submit time if it's not at the default:
+#   REPO_DIR=/path/to/af3-pipeline sbatch ...
+REPO_DIR=${REPO_DIR:-/work/$USER/af3-pipeline}
+
+# Per-job scratch input/output dirs.
 mkdir -p /work/$USER/AF3_Input
 mkdir -p /work/$USER/AF3_Output
 INPUT=/work/$USER/AF3_Input
 OUTPUT=/work/$USER/AF3_Output
 
 date
-echo "Copying /opt/apps/community/alphafold3/AF3_Input/alphafold_input.json to /work/$USER/AF3_Input ..."
+# The one line that actually changes per job: which prepared input JSON
+# (from protein/inputs/) gets used as this run's alphafold_input.json.
+echo "Copying $REPO_DIR/protein/inputs/REPLACE_WITH_INPUT_JSON.json to $INPUT/alphafold_input.json ..."
+cp "$REPO_DIR/protein/inputs/REPLACE_WITH_INPUT_JSON.json" "$INPUT/alphafold_input.json"
 echo "The job is getting started..."
 
 singularity exec \
---nv \
---bind $INPUT:/root/af_input \
---bind $OUTPUT:/root/af_output \
---bind $MODEL_PARAMETERS_DIR:/root/models \
---bind $DATABASES_DIR:/root/public_databases \
---bind $AF3_HOME/AF3_Programs/alphafold3:/root/AF3 \
-$AF3_HOME/AF3_v3.0.1.sif \
-python /root/AF3/run_alphafold.py \
---flash_attention_implementation=xla \
---input_dir=/root/af_input \
---model_dir=/root/models \
---db_dir=/root/public_databases \
---output_dir=/root/af_output
+     --nv \
+     --bind $INPUT:/root/af_input \
+     --bind $OUTPUT:/root/af_output \
+     --bind $MODEL_PARAMETERS_DIR:/root/models \
+     --bind $DATABASES_DIR:/root/public_databases \
+     --bind $AF3_HOME/AF3_Programs/alphafold3:/root/AF3 \
+     $AF3_HOME/AF3_v3.0.1.sif \
+     python /root/AF3/run_alphafold.py \
+     --flash_attention_implementation=xla \
+     --input_dir=/root/af_input \
+     --model_dir=/root/models \
+     --db_dir=/root/public_databases \
+     --output_dir=/root/af_output
 
 echo "The analysis is done."
 date
