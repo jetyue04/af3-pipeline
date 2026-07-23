@@ -71,8 +71,11 @@ REPO_DIR=/path/to/af3-pipeline sbatch jobs/rab5a_monomer.job
 - Output: `/work/$USER/AF3_Output/<job_name>/` (own subfolder per job, via
   `JOB_NAME` in the script) — e.g. `/work/$USER/AF3_Output/rab5a_rabaptin5_gtp/`.
 
-Slurm stdout/stderr logs (`slurm-AF3_*_<jobid>.out/.err`) get written
-wherever you ran `sbatch` from, same as before.
+Slurm stdout/stderr logs go to [jobs/logs/](logs/)
+(`jobs/logs/slurm-AF3_<job_name>_<jobid>.out/.err`) — this only resolves
+correctly if you `sbatch` from the repo root (as shown above), since it's a
+relative path. Log files themselves are gitignored; only the directory is
+tracked.
 
 ## Running everything at once
 

@@ -5,8 +5,8 @@
 #   partition = h20-gpu (2-chain complex — bumped up from l20-gpu for the
 #               extra VRAM/bandwidth; see template for the tradeoff)
 #SBATCH --job-name=AF3_rab5a_rabaptin5_gtp
-#SBATCH --output=slurm-AF3_rab5a_rabaptin5_gtp_%j.out
-#SBATCH --error=slurm-AF3_rab5a_rabaptin5_gtp_%j.err
+#SBATCH --output=jobs/logs/slurm-AF3_rab5a_rabaptin5_gtp_%j.out
+#SBATCH --error=jobs/logs/slurm-AF3_rab5a_rabaptin5_gtp_%j.err
 #SBATCH -p h20-gpu
 #SBATCH --account=faculty
 #SBATCH --gres=gpu:1

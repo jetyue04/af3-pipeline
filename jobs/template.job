@@ -6,8 +6,8 @@
 # ==========================================================================
 
 #SBATCH --job-name=AF3_REPLACE_WITH_JOB_NAME
-#SBATCH --output=slurm-AF3_REPLACE_WITH_JOB_NAME_%j.out
-#SBATCH --error=slurm-AF3_REPLACE_WITH_JOB_NAME_%j.err
+#SBATCH --output=jobs/logs/slurm-AF3_REPLACE_WITH_JOB_NAME_%j.out
+#SBATCH --error=jobs/logs/slurm-AF3_REPLACE_WITH_JOB_NAME_%j.err
 
 # GPU partition — this cluster has NVIDIA L20 (l20-gpu) and H20 (h20-gpu)
 # nodes. Confirm exact partition names/current load with `sinfo` before
