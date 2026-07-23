@@ -1,0 +1,43 @@
+#!/bin/bash
+#SBATCH --job-name=AF3_test
+#SBATCH --output=slurm-AF3_test_%j.out
+#SBATCH --error=slurm-AF3_test_%j.err
+#SBATCH -p l20-gpu --gres=gpu:1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=10
+#SBATCH --mem=24GB
+
+mkdir -p /work/$USER/tmp
+mkdir -p /work/$USER/cache
+export APPTAINER_TMPDIR=/work/$USER/tmp
+export APPTAINER_CACHEDIR=/work/$USER/cache
+
+AF3_HOME=/opt/apps/community/alphafold3
+DATABASES_DIR=/opt/apps/community/alphafold3/AF3_databases
+MODEL_PARAMETERS_DIR=$AF3_HOME/AF3_models
+mkdir -p /work/$USER/AF3_Input
+mkdir -p /work/$USER/AF3_Output
+INPUT=/work/$USER/AF3_Input
+OUTPUT=/work/$USER/AF3_Output
+
+date
+echo "Copying /opt/apps/community/alphafold3/AF3_Input/alphafold_input.json to /work/$USER/AF3_Input ..."
+echo "The job is getting started..."
+
+singularity exec \
+     --nv \
+     --bind $INPUT:/root/af_input \
+     --bind $OUTPUT:/root/af_output \
+     --bind $MODEL_PARAMETERS_DIR:/root/models \
+     --bind $DATABASES_DIR:/root/public_databases \
+     --bind $AF3_HOME/AF3_Programs/alphafold3:/root/AF3 \
+     $AF3_HOME/AF3_v3.0.1.sif \
+     python /root/AF3/run_alphafold.py \
+     --flash_attention_implementation=xla \
+     --input_dir=/root/af_input \
+     --model_dir=/root/models \
+     --db_dir=/root/public_databases \
+     --output_dir=/root/af_output
+
+echo "The analysis is done."
+date
