@@ -47,17 +47,19 @@ MODEL_PARAMETERS_DIR=$AF3_HOME/AF3_models
 #   REPO_DIR=/path/to/af3-pipeline sbatch ...
 REPO_DIR=${REPO_DIR:-/work/$USER/af3-pipeline}
 
-# Per-job scratch input/output dirs.
+# Per-job name — used to keep this run's output in its own subfolder, and
+# to point run_alphafold.py at just this job's JSON below.
+JOB_NAME=REPLACE_WITH_JOB_NAME
 mkdir -p /work/$USER/AF3_Input
-mkdir -p /work/$USER/AF3_Output
+mkdir -p /work/$USER/AF3_Output/$JOB_NAME
 INPUT=/work/$USER/AF3_Input
-OUTPUT=/work/$USER/AF3_Output
+OUTPUT=/work/$USER/AF3_Output/$JOB_NAME
 
 date
-# The one line that actually changes per job: which prepared input JSON
-# (from protein/inputs/) gets used as this run's alphafold_input.json.
-echo "Copying $REPO_DIR/protein/inputs/REPLACE_WITH_INPUT_JSON.json to $INPUT/alphafold_input.json ..."
-cp "$REPO_DIR/protein/inputs/REPLACE_WITH_INPUT_JSON.json" "$INPUT/alphafold_input.json"
+# AF3_Input is shared across jobs — safe because --json_path below points
+# run_alphafold.py at this one file specifically, not the whole directory.
+echo "Copying $REPO_DIR/protein/inputs/REPLACE_WITH_INPUT_JSON.json to $INPUT/REPLACE_WITH_INPUT_JSON.json ..."
+cp "$REPO_DIR/protein/inputs/REPLACE_WITH_INPUT_JSON.json" "$INPUT/REPLACE_WITH_INPUT_JSON.json"
 echo "The job is getting started..."
 
 singularity exec \
@@ -70,7 +72,7 @@ singularity exec \
      $AF3_HOME/AF3_v3.0.1.sif \
      python /root/AF3/run_alphafold.py \
      --flash_attention_implementation=xla \
-     --input_dir=/root/af_input \
+     --json_path=/root/af_input/REPLACE_WITH_INPUT_JSON.json \
      --model_dir=/root/models \
      --db_dir=/root/public_databases \
      --output_dir=/root/af_output

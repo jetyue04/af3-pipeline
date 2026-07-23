@@ -1,16 +1,14 @@
 # SLURM jobs
 
-- `af3-test.job` — the **template**. Copy it for any new protein/complex,
+- `template.job` — the **template**. Copy it for any new protein/complex,
   fill in the two `REPLACE_WITH_*` spots (job name, input JSON filename),
   and it's ready to submit. Also documents the cluster's GPU partitions.
-- `af3-test1.job` — earlier scratch variant, expects the input JSON to
-  already be sitting at `/opt/apps/community/alphafold3/AF3_Input/alphafold_input.json`.
-  Kept for reference; new jobs should start from `af3-test.job` instead.
 - One filled-in job per input in [../protein/inputs](../protein/inputs) —
-  each is `af3-test.job` with the placeholders substituted, and a header
+  each is `template.job` with the placeholders substituted, and a header
   comment noting exactly what was filled in. Each copies its matching JSON
-  from this repo into `$INPUT/alphafold_input.json` before running, so you
-  don't have to hand-edit anything per submission:
+  from this repo into the shared input dir before running, so you don't
+  have to hand-edit anything per submission, and **all of them can be
+  `sbatch`'d at the same time** without clobbering each other:
   - `rab5a_monomer.job`
   - `rab5a_full_gtp.job`
   - `rab5a_full_gdp.job`
@@ -61,5 +59,30 @@ sbatch jobs/rab5a_monomer.job
 REPO_DIR=/path/to/af3-pipeline sbatch jobs/rab5a_monomer.job
 ```
 
-Output lands in `/work/$USER/AF3_Output`, and the slurm stdout/stderr logs
-(`slurm-AF3_*_<jobid>.out/.err`) get written wherever you ran `sbatch` from.
+## Input/output layout
+
+- Input: `/work/$USER/AF3_Input/<job_name>.json` — a single **shared**
+  directory. Each job just copies its JSON in under its original filename
+  from `protein/inputs/`; no per-job subfolder needed, because
+  `run_alphafold.py` is called with `--json_path=/root/af_input/<job_name>.json`
+  pointing at that one specific file — not `--input_dir`, which would
+  process every file sitting in the directory. That's what makes it safe
+  for multiple jobs to share one `AF3_Input` dir and run concurrently.
+- Output: `/work/$USER/AF3_Output/<job_name>/` (own subfolder per job, via
+  `JOB_NAME` in the script) — e.g. `/work/$USER/AF3_Output/rab5a_rabaptin5_gtp/`.
+
+Slurm stdout/stderr logs (`slurm-AF3_*_<jobid>.out/.err`) get written
+wherever you ran `sbatch` from, same as before.
+
+## Running everything at once
+
+```bash
+cd /work/$USER/af3-pipeline
+for j in jobs/*.job; do
+  [[ "$j" == *template.job ]] && continue
+  sbatch "$j"
+done
+```
+
+Safe to fire off in one go: each job only ever touches its own JSON via
+`--json_path`, and writes to its own `AF3_Output/<job_name>/` subfolder.
