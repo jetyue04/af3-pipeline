@@ -10,6 +10,14 @@ as it abbreviates certain fields and the sequences are not biologically
 meaningful." The `...` values are the doc's own shorthand for "omitted for
 brevity," not something we introduced.
 
+**Cluster caveat (learned the hard way):** this example declares
+`"version": 4`, and the docs describe versions up to 4 — but this cluster's
+installed AF3 build (`AF3_v3.0.1.sif`) rejects anything above `2` at
+runtime. Every actual input in [../inputs](../inputs) uses `"version": 2`
+and skips the v4-only `description` field. Kept this example unedited
+anyway since it's meant as a reference for the full public schema, not
+something to run as-is.
+
 ## Top-level structure
 
 ```json

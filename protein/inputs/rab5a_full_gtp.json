@@ -1,29 +1,32 @@
 {
   "name": "RAB5A_full_GTP_Mg",
-  "modelSeeds": [1],
+  "modelSeeds": [
+    1
+  ],
   "sequences": [
     {
       "protein": {
         "id": "A",
-        "sequence": "MASRGATRPNGPNTGNKICQFKLVLLGESAVGKSSLVLRFVKGQFHEFQESTIGAAFLTQTVCLDDTTVKFEIWDTAGQERYHSLAPMYYRGAQAAIVVYDITNEESFARAKNWVKELQRQASPNIVIALSGNKADLANKRAVDFQEAQSYADDNSLLFMETSAKTSMNVNEIFMAIAKKLPKNEPQNPGANSARGRGVDLTEPTQPTRNQCCSN",
-        "description": "Chain A: RAB5A, full-length (UniProt P20339)"
+        "sequence": "MASRGATRPNGPNTGNKICQFKLVLLGESAVGKSSLVLRFVKGQFHEFQESTIGAAFLTQTVCLDDTTVKFEIWDTAGQERYHSLAPMYYRGAQAAIVVYDITNEESFARAKNWVKELQRQASPNIVIALSGNKADLANKRAVDFQEAQSYADDNSLLFMETSAKTSMNVNEIFMAIAKKLPKNEPQNPGANSARGRGVDLTEPTQPTRNQCCSN"
       }
     },
     {
       "ligand": {
         "id": "B",
-        "ccdCodes": ["GTP"],
-        "description": "Chain B: GTP nucleotide (active/\"on\" state)"
+        "ccdCodes": [
+          "GTP"
+        ]
       }
     },
     {
       "ligand": {
         "id": "C",
-        "ccdCodes": ["MG"],
-        "description": "Chain C: Mg2+ cofactor"
+        "ccdCodes": [
+          "MG"
+        ]
       }
     }
   ],
   "dialect": "alphafold3",
-  "version": 4
+  "version": 2
 }

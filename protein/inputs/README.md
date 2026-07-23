@@ -2,8 +2,8 @@
 
 Ready-to-run AlphaFold 3 inputs, built from the templates in
 [../templates](../templates) and the sequences in [../sequences](../sequences).
-Copy whichever one to `AF3_Input/alphafold_input.json` on the cluster to run
-it via [jobs/](../../jobs/).
+Each one already has a matching job in [../../jobs](../../jobs/README.md) —
+just `sbatch` that, no manual copying needed.
 
 - `rab5a_monomer.json` — plain full-length RAB5A (P20339), no ligand — the
   apo/nucleotide-free baseline (step 3).
@@ -23,6 +23,13 @@ it via [jobs/](../../jobs/).
 
 All model seeds are `[1]` — bump `modelSeeds` to `[1, 2, ...]` for more
 samples once you're past the single-seed sanity-check stage.
+
+**Version note:** `"version": 2` in every file here, not `4`. This
+cluster's installed AF3 build rejects input JSON declaring a version above
+`2`, regardless of what the public docs say — see
+[../templates/README.md](../templates/README.md#field-notes) for details.
+That also means no `description` field on any chain (a v4-only addition,
+removed after jobs started failing on the version check).
 
 **Note:** UniProt's current gene symbol for FAM129B is `NIBAN2` (it was
 renamed) — accession Q96TA1 is still the right one, just filed under the new

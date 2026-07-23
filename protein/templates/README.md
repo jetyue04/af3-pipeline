@@ -2,8 +2,9 @@
 
 Standard AlphaFold 3 input JSON, in the shapes this project actually needs.
 Copy the one that matches what you're testing, rename it, and fill in the
-`REPLACE_WITH_*` placeholders — that filled-in copy is what gets dropped into
-`AF3_Input/alphafold_input.json` for the SLURM job in [jobs/](../../jobs/).
+`REPLACE_WITH_*` placeholders — save it into [../inputs](../inputs), then
+copy [../../jobs/template.job](../../jobs/template.job) and point it at
+that file (see [jobs/README.md](../../jobs/README.md)).
 
 - **`monomer.json`** — single protein, e.g. the QC-each-protein-alone step
   before any pairing (pipeline.md step 3).
@@ -27,9 +28,12 @@ Copy the one that matches what you're testing, rename it, and fill in the
   See "modifications" in the specs to include PTMs, if needed.
 - `modelSeeds` — list of ints; AF3 runs the full pipeline once per seed.
   More seeds = more samples to compare, at the cost of runtime.
-- `dialect` / `version` — leave as `"alphafold3"` / `4`; this is the input
-  schema version AF3 expects, not the container version (the SLURM job uses
-  `AF3_v3.0.1.sif`).
+- `dialect` / `version` — leave as `"alphafold3"` / `2`. This is the input
+  *schema* version, separate from the container version (the SLURM job uses
+  `AF3_v3.0.1.sif`) — empirically, this cluster's AF3 build rejects anything
+  above `2`, even though the public docs describe versions up to 4. That
+  means no `description` field either (a v4-only addition) — don't add one
+  unless the cluster's AF3 build gets upgraded and this is re-verified.
 - Optional and not included here: `bondedAtomPairs` (explicit covalent bonds,
   e.g. to a modified residue), and precomputed `unpairedMsa`/`pairedMsa`/
   `templates` (skip these — the SLURM job already points at a full

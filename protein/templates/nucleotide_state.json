@@ -1,6 +1,8 @@
 {
   "name": "REPLACE_WITH_JOB_NAME",
-  "modelSeeds": [1],
+  "modelSeeds": [
+    1
+  ],
   "sequences": [
     {
       "protein": {
@@ -11,16 +13,20 @@
     {
       "ligand": {
         "id": "B",
-        "ccdCodes": ["GTP"]
+        "ccdCodes": [
+          "GTP"
+        ]
       }
     },
     {
       "ligand": {
         "id": "C",
-        "ccdCodes": ["MG"]
+        "ccdCodes": [
+          "MG"
+        ]
       }
     }
   ],
   "dialect": "alphafold3",
-  "version": 4
+  "version": 2
 }

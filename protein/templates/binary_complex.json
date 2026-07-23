@@ -1,6 +1,8 @@
 {
   "name": "REPLACE_WITH_JOB_NAME",
-  "modelSeeds": [1],
+  "modelSeeds": [
+    1
+  ],
   "sequences": [
     {
       "protein": {
@@ -16,5 +18,5 @@
     }
   ],
   "dialect": "alphafold3",
-  "version": 4
+  "version": 2
 }
