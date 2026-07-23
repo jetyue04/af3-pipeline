@@ -1,0 +1,20 @@
+{
+  "name": "REPLACE_WITH_JOB_NAME",
+  "modelSeeds": [1],
+  "sequences": [
+    {
+      "protein": {
+        "id": "A",
+        "sequence": "REPLACE_WITH_CAPZA1_SEQUENCE"
+      }
+    },
+    {
+      "protein": {
+        "id": "B",
+        "sequence": "REPLACE_WITH_CAPZB_SEQUENCE"
+      }
+    }
+  ],
+  "dialect": "alphafold3",
+  "version": 4
+}

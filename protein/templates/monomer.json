@@ -1,0 +1,14 @@
+{
+  "name": "REPLACE_WITH_JOB_NAME",
+  "modelSeeds": [1],
+  "sequences": [
+    {
+      "protein": {
+        "id": "A",
+        "sequence": "REPLACE_WITH_SEQUENCE"
+      }
+    }
+  ],
+  "dialect": "alphafold3",
+  "version": 4
+}

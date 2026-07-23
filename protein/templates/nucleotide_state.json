@@ -1,0 +1,26 @@
+{
+  "name": "REPLACE_WITH_JOB_NAME",
+  "modelSeeds": [1],
+  "sequences": [
+    {
+      "protein": {
+        "id": "A",
+        "sequence": "REPLACE_WITH_RAB_SEQUENCE"
+      }
+    },
+    {
+      "ligand": {
+        "id": "B",
+        "ccdCodes": ["GTP"]
+      }
+    },
+    {
+      "ligand": {
+        "id": "C",
+        "ccdCodes": ["MG"]
+      }
+    }
+  ],
+  "dialect": "alphafold3",
+  "version": 4
+}
