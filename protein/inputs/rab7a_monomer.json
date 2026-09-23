@@ -1,0 +1,16 @@
+{
+  "name": "RAB7A_full_monomer",
+  "modelSeeds": [
+    1
+  ],
+  "sequences": [
+    {
+      "protein": {
+        "id": "A",
+        "sequence": "MTSRKKVLLKVIILGDSGVGKTSLMNQYVNKKFSNQYKATIGADFLTKEVMVDDRLVTMQIWDTAGQERFQSLGVAFYRGADCCVLVFDVTAPNTFKTLDSWRDEFLIQASPRDPENFPFVVLGNKIDLENRQVATKRAQAWCYSKNNIPYFETSAKEAINVEQAFQTIARNALKQETEVELYNEFPEPIKLDKNDRAKASAESCSC"
+      }
+    }
+  ],
+  "dialect": "alphafold3",
+  "version": 2
+}

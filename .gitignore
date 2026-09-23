@@ -1,0 +1,19 @@
+# Ligand library (large, downloaded by pipeline)
+ligands/library/
+
+# Raw docking outputs (large, regenerable)
+results/docking/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS
+.DS_Store

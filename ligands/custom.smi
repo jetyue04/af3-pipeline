@@ -1,0 +1,4 @@
+# Custom compounds for FAM129B/RAB5A PPI screening
+# Add SMILES strings here, one per line, format: SMILES compound_id
+# Example:
+# CC1=CC=C(C=C1)S(=O)(=O)N compound_001

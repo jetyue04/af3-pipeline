@@ -1,0 +1,22 @@
+name: af3-pipeline
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    - biopython>=1.81
+    - pandas>=2.0
+    - numpy>=1.24
+    - matplotlib>=3.7
+    - seaborn>=0.12
+    - py3Dmol>=2.0
+    - nglview>=3.0
+    - pdbfixer>=1.9
+    - rdkit>=2023.3
+    - meeko>=0.5
+    - prodigy-prot>=2.1
+    - jupyter>=1.0
+    - ipywidgets>=8.0
+    - tqdm>=4.65
