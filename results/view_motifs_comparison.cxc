@@ -1,0 +1,40 @@
+# ChimeraX comparison: HB domain (working) vs isolated motifs (failing)
+# Opens 3 models side by side so you can see why the motifs fail alone
+#
+# Model #1 = HB domain + RAB5A GTP  (pair_iptm=0.56 - REAL INTERFACE)
+# Model #2 = Motif 1 + RAB5A GTP    (pair_iptm=0.23 - no interface)
+# Model #3 = Motif 2 + RAB5A GTP    (pair_iptm=0.19 - no interface)
+
+open /Users/jetyue04/af3/output/fam129b_hb_rab5a_gtp/fam129b_hb_rab5a_gtp_mg_complex/seed-1_sample-3/model.cif
+open /Users/jetyue04/af3/output/fam129b_motif1_rab5a_gtp/fam129b_motif1_rab5a_gtp_mg_complex/seed-1_sample-0/model.cif
+open /Users/jetyue04/af3/output/fam129b_motif2_rab5a_gtp/fam129b_motif2_rab5a_gtp_mg_complex/seed-1_sample-1/model.cif
+
+hide
+show cartoons
+show #1/C #1/D #2/C #2/D #3/C #3/D atoms
+
+# HB domain model (#1) - blue FAM129B, green RAB5A
+color #1 gray
+color #1/A cornflowerblue
+color #1/B limegreen
+color #1/B:57-74 tomato
+color #1/B:17-24 gold
+
+# Motif 1 model (#2) - yellow motif, green RAB5A
+color #2 gray
+color #2/A gold
+color #2/B limegreen
+color #2/B:57-74 tomato
+color #2/B:17-24 gold
+
+# Motif 2 model (#3) - salmon motif, green RAB5A
+color #3 gray
+color #3/A salmon
+color #3/B limegreen
+color #3/B:57-74 tomato
+color #3/B:17-24 gold
+
+# Tile the three models side by side
+tile
+
+lighting soft
