@@ -12,6 +12,7 @@ cancer.
 
 ## Project status
 
+### FAM129B pipeline
 | Stage | Status | Notes |
 |-------|--------|-------|
 | AF3 inputs (all proteins) | ✅ Done | All JSONs + SLURM scripts in `jobs/` |
@@ -20,6 +21,17 @@ cancer.
 | Environment setup | ⏳ Pending | Run `conda env create` (see below) |
 | Notebook validation (Sections 0–2) | ⏳ Pending | Works with current data |
 | Docking setup + screening | ⏳ Pending | Needs FAM129B complex output first |
+
+### TRPA1 antagonist screen (new)
+| Stage | Status | Notes |
+|-------|--------|-------|
+| Download 6V9W cryo-EM structure | ⏳ Start here — no VPN | `results/trpa1/receptor/6V9W.pdb` |
+| Prep receptor PDBQT + docking grid | ⏳ After download | `src/docking/prepare.py` |
+| Benchmark: HC-030031 vs 6V9W | ⏳ Validates box placement | PubChem CID 2723949 |
+| Phase 1: Vina screen (~5–10K compounds) | ⏳ After grid confirmed | `src/docking/screen.py` |
+| Phase 1: GNINA rescore + triage | ⏳ After Vina | `src/docking/triage.py` |
+| Phase 2: AF3 co-fold top 20 hits | ⏳ Needs cluster + VPN | `jobs/trpa1_tm_hc030031.job` template |
+| Phase 3: Wet-lab handoff | ⏳ After dual-validated shortlist | |
 
 ---
 

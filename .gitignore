@@ -4,6 +4,19 @@ ligands/library/
 # Raw docking outputs (large, regenerable)
 results/docking/
 
+# Generated images (regenerable via notebook/scripts)
+*.png
+*.jpg
+*.jpeg
+*.svg
+results/plots/
+
+# Generated HTML visualizations (embed full CIF — large, regenerable)
+results/*.html
+
+# SLURM logs
+jobs/logs/
+
 # Python
 __pycache__/
 *.py[cod]
@@ -17,3 +30,8 @@ build/
 
 # OS
 .DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.log

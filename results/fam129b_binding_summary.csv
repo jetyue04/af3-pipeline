@@ -1,0 +1,5 @@
+job_name,iptm,ptm,pair_iptm_fam129b_rab5a,pair_pae_min_fam129b_rab5a_A,bsa_A2,contact_pairs,switch1_mean_dist_A,switch2_mean_dist_A,prodigy_dG_kcal_mol,prodigy_Kd_M
+fam129b_rab5a_gdp_mg_complex,0.33,0.64,0.28,19.89,1604.2,49,8.82,5.98,-9.37,1.34e-07
+fam129b_rab5a_gtp_mg_complex,0.28,0.6,0.16,24.91,1352.4,43,9.41,6.06,-8.86,3.15e-07
+rab5a_gdp_mg_rabaptin5_complex (control),0.69,0.32,,,2055.4,58,10.21,6.15,-12.61,5.6e-10
+rab5a_gtp_mg_rabaptin5_complex (control),0.7,0.34,,,1694.5,46,10.91,6.65,-9.94,5.1e-08

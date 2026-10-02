@@ -1,0 +1,47 @@
+# ChimeraX script: FAM129B HB domain + RAB5A GTP-bound complex
+# Chain A = FAM129B HB domain (FAM129B res 192-576)
+# Chain B = RAB5A
+# Chain C = GTP
+# Chain D = Mg2+
+# Best model: seed-1_sample-3, iptm=0.59, pair_iptm=0.56
+
+open /Users/jetyue04/af3/output/fam129b_hb_rab5a_gtp/fam129b_hb_rab5a_gtp_mg_complex/seed-1_sample-3/model.cif
+
+hide
+show cartoons
+show /C /D atoms
+
+color /A cornflowerblue
+color /B limegreen
+color /C orange
+color /D magenta
+
+# RAB5A functional regions
+color /B:17-24 gold
+color /B:33-42 darkorange
+color /B:57-74 tomato
+
+# GTP and Mg display style
+style /C stick
+size /C stickRadius 0.28
+style /D sphere
+size /D atomRadius 0.9
+
+# Show FAM129B interface residues as sticks (5A cutoff, pLDDT>=50)
+show /A:9,36,37,39,40,44,48,51,70,71,74,75,78,81,82,85,86,206,207,208,209,212,216,236,237,240,244,247 atoms
+style /A:9,36,37,39,40,44,48,51,70,71,74,75,78,81,82,85,86,206,207,208,209,212,216,236,237,240,244,247 stick
+color /A:9,36,37,39,40,44,48,51,70,71,74,75,78,81,82,85,86,206,207,208,209,212,216,236,237,240,244,247 cyan
+
+# Show RAB5A interface residues as sticks (5A cutoff, pLDDT>=50)
+show /B:20,21,22,28,29,30,47,48,49,50,51,72,79,80,81,82,83,84,85,88,89,91,92,93,94,101,103,110,123,124,125,134,182 atoms
+style /B:20,21,22,28,29,30,47,48,49,50,51,72,79,80,81,82,83,84,85,88,89,91,92,93,94,101,103,110,123,124,125,134,182 stick
+
+# Recolor RAB5A interface sticks by region (overrides base stick color)
+color /B:20,21,22 gold
+color /B:72 tomato
+color /B:28,29,30,47,48,49,50,51,79,80,81,82,83,84,85,88,89,91,92,93,94,101,103,110,123,124,125,134,182 mediumpurple
+
+lighting soft
+
+# Zoom to interface
+view /B:20-22,28-30,47-51,72,79-94 clip false

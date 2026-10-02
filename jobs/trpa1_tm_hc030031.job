@@ -1,0 +1,56 @@
+#!/bin/bash
+# TRPA1 TM domain (res 682-1119) co-folded with HC-030031 (known antagonist).
+# Validation run: confirms AF3 places the antagonist in the expected TM pocket
+# (S4-S5 linker / S6 intracellular gate) before running unknown compounds.
+# 3 model seeds → assess pose consistency across independent predictions.
+# See claude/trpa1_plan.md for pass criteria and Phase 2 details.
+# NOTE: h20-gpu — protein-ligand co-fold benefits from H20 VRAM and bandwidth.
+#       Override with: sbatch -p l20-gpu jobs/trpa1_tm_hc030031.job if H20 busy.
+#SBATCH --job-name=AF3_trpa1_tm_hc030031
+#SBATCH --output=jobs/logs/slurm-AF3_trpa1_tm_hc030031_%j.out
+#SBATCH --error=jobs/logs/slurm-AF3_trpa1_tm_hc030031_%j.err
+#SBATCH -p h20-gpu
+#SBATCH --account=faculty
+#SBATCH --gres=gpu:1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=10
+#SBATCH --mem=24GB
+
+mkdir -p /work/$USER/tmp
+mkdir -p /work/$USER/cache
+export APPTAINER_TMPDIR=/work/$USER/tmp
+export APPTAINER_CACHEDIR=/work/$USER/cache
+
+AF3_HOME=/opt/apps/community/alphafold3
+DATABASES_DIR=/opt/apps/community/alphafold3/AF3_databases
+MODEL_PARAMETERS_DIR=$AF3_HOME/AF3_models
+REPO_DIR=${REPO_DIR:-/work/$USER/af3-pipeline}
+
+JOB_NAME=trpa1_tm_hc030031
+mkdir -p /work/$USER/AF3_Input
+mkdir -p /work/$USER/AF3_Output/$JOB_NAME
+INPUT=/work/$USER/AF3_Input
+OUTPUT=/work/$USER/AF3_Output/$JOB_NAME
+
+date
+echo "Copying $REPO_DIR/protein/inputs/trpa1_tm_hc030031.json to $INPUT/trpa1_tm_hc030031.json ..."
+cp "$REPO_DIR/protein/inputs/trpa1_tm_hc030031.json" "$INPUT/trpa1_tm_hc030031.json"
+echo "The job is getting started..."
+
+singularity exec \
+     --nv \
+     --bind $INPUT:/root/af_input \
+     --bind $OUTPUT:/root/af_output \
+     --bind $MODEL_PARAMETERS_DIR:/root/models \
+     --bind $DATABASES_DIR:/root/public_databases \
+     --bind $AF3_HOME/AF3_Programs/alphafold3:/root/AF3 \
+     $AF3_HOME/AF3_v3.0.1.sif \
+     python /root/AF3/run_alphafold.py \
+     --flash_attention_implementation=xla \
+     --json_path=/root/af_input/trpa1_tm_hc030031.json \
+     --model_dir=/root/models \
+     --db_dir=/root/public_databases \
+     --output_dir=/root/af_output
+
+echo "The analysis is done."
+date

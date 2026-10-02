@@ -1,7 +1,7 @@
 """Wrapper around prodigy-prot for binding ΔG / Kd prediction from AF3 CIF files."""
+import copy
 import logging
 import os
-import tempfile
 import warnings
 from pathlib import Path
 from typing import Optional
@@ -22,34 +22,25 @@ except ImportError:
     )
 
 
-def _cif_to_pdb_tempfile(cif_path: str, chain_a_id: str, chain_b_id: str) -> str:
-    """Convert a CIF file to a temporary PDB file with only the two target chains.
+def _extract_protein_model(cif_path: str, chain_ids: set[str]):
+    """Parse a CIF file and return a Model containing only the target chains.
 
-    Returns the path to the temporary PDB file. Caller is responsible for deletion.
+    Non-protein chains (ligands, ions, water) are dropped so they do not
+    pollute PRODIGY's SASA/contact calculation.
     """
-    from Bio.PDB import MMCIFParser, PDBIO, Select  # type: ignore
-
-    class _ChainSelect(Select):
-        def __init__(self, chains: set[str]) -> None:
-            self._chains = chains
-
-        def accept_chain(self, chain) -> bool:
-            return chain.get_id() in self._chains
+    from Bio.PDB import MMCIFParser, Model, Structure  # type: ignore
 
     parser = MMCIFParser(QUIET=True)
     structure = parser.get_structure("struct", cif_path)
+    src_model = next(iter(structure))
 
-    io = PDBIO()
-    io.set_structure(structure)
-
-    tmp = tempfile.NamedTemporaryFile(
-        suffix=".pdb", delete=False, mode="w"
-    )
-    tmp_path = tmp.name
-    tmp.close()
-
-    io.save(tmp_path, _ChainSelect({chain_a_id, chain_b_id}))
-    return tmp_path
+    new_structure = Structure.Structure("prodigy_sel")
+    model = Model.Model(0)
+    new_structure.add(model)
+    for chain in src_model.get_chains():
+        if chain.get_id() in chain_ids:
+            model.add(copy.deepcopy(chain))
+    return model
 
 
 def run_prodigy(
@@ -82,21 +73,17 @@ def run_prodigy(
         )
         return {"dg_kcal_mol": None, "kd_molar": None}
 
-    tmp_pdb: Optional[str] = None
     try:
-        tmp_pdb = _cif_to_pdb_tempfile(cif_path, chain_a_id, chain_b_id)
+        model = _extract_protein_model(cif_path, {chain_a_id, chain_b_id})
 
-        from prodigy_prot import Prodigy  # type: ignore
+        from prodigy_prot.modules.prodigy import Prodigy  # type: ignore
 
-        prodigy = Prodigy(tmp_pdb, selection=[chain_a_id, chain_b_id])
-        prodigy.predict(temperature=25.0)
-
-        dg = prodigy.dg_predicted          # kcal/mol
-        kd = prodigy.kd_predicted          # molar
+        prodigy = Prodigy(model, selection=[chain_a_id, chain_b_id])
+        prodigy.predict(temp=25.0)
 
         return {
-            "dg_kcal_mol": float(dg) if dg is not None else None,
-            "kd_molar": float(kd) if kd is not None else None,
+            "dg_kcal_mol": float(prodigy.ba_val),
+            "kd_molar": float(prodigy.kd_val),
         }
 
     except Exception as exc:
@@ -105,13 +92,6 @@ def run_prodigy(
             cif_path, chain_a_id, chain_b_id, exc,
         )
         return {"dg_kcal_mol": None, "kd_molar": None}
-
-    finally:
-        if tmp_pdb and Path(tmp_pdb).exists():
-            try:
-                Path(tmp_pdb).unlink()
-            except OSError:
-                pass
 
 
 def run_prodigy_batch(jobs: list[dict]) -> pd.DataFrame:

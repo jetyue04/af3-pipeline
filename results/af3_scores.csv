@@ -1,0 +1,11 @@
+job_name,iptm,ptm,ranking_score,fraction_disordered,has_clash,chain_iptm_mean,cross_chain_pae_min,nucleotide
+fam129b_capz_heterodimer_complex,0.36,0.5,0.47,0.17,0.0,0.39999999999999997,1.23,none
+fam129b_niban2_monomer,,0.75,0.85,0.21,0.0,,,none
+fam129b_rab5a_gdp_mg_complex,0.33,0.64,0.49,0.2,0.0,0.5325,0.96,GDP
+fam129b_rab5a_gtp_mg_complex,0.28,0.6,0.44,0.2,0.0,0.485,1.08,GTP
+rab5a_full_gdp_mg,0.97,0.77,1.03,0.21,0.0,0.8166666666666668,0.79,GDP
+rab5a_full_gtp_mg,0.97,0.8,1.04,0.21,0.0,0.89,0.78,GTP
+rab5a_full_monomer,,0.76,0.86,0.21,0.0,,,none
+rab5a_gdp_mg_rabaptin5_complex,0.69,0.32,0.84,0.43,0.0,0.7325,1.09,GDP
+rab5a_gtp_mg_rabaptin5_complex,0.7,0.34,0.82,0.4,0.0,0.78,0.96,GTP
+rabep1_rabaptin5_monomer,,0.23,0.53,0.6,0.0,,,none

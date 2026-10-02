@@ -20,10 +20,11 @@ dependencies:
   # OpenMM ecosystem (pdbfixer depends on it)
   - openmm
   - pdbfixer
+  # AutoDock Vina — conda-forge ships pre-built binaries (avoids Boost build dep)
+  - vina
+  - nglview
   - pip:
     # pip-only packages
     - py3Dmol==2.5.5
-    - nglview==3.1.4
     - meeko==0.8.0
-    - vina==1.2.7
     - prodigy-prot==2.4.0

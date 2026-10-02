@@ -1,0 +1,32 @@
+{
+  "name": "fam129b_motif2_rab5a_gdp_mg_complex",
+  "modelSeeds": [1],
+  "sequences": [
+    {
+      "protein": {
+        "id": "A",
+        "sequence": "EYMEKLSRLAYHPLKMQSCYEKMESLRLDGLQQRFDVSSTSVFKQRAQIHMREQMDNAVYTF"
+      }
+    },
+    {
+      "protein": {
+        "id": "B",
+        "sequence": "MASRGATRPNGPNTGNKICQFKLVLLGESAVGKSSLVLRFVKGQFHEFQESTIGAAFLTQTVCLDDTTVKFEIWDTAGQERYHSLAPMYYRGAQAAIVVYDITNEESFARAKNWVKELQRQASPNIVIALSGNKADLANKRAVDFQEAQSYADDNSLLFMETSAKTSMNVNEIFMAIAKKLPKNEPQNPGANSARGRGVDLTEPTQPTRNQCCSN"
+      }
+    },
+    {
+      "ligand": {
+        "id": "C",
+        "ccdCodes": ["GDP"]
+      }
+    },
+    {
+      "ligand": {
+        "id": "D",
+        "ccdCodes": ["MG"]
+      }
+    }
+  ],
+  "dialect": "alphafold3",
+  "version": 2
+}
